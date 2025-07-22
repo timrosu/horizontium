@@ -1,0 +1,2 @@
+login: https://horizont.t-2.net/prijava
+telefonija: https://horizont.t-2.net/nastavitve/telefonija

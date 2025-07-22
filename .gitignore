@@ -1,5 +1,9 @@
-# horizont login credentials
-creds.txt
+# horizont sensitive configurations credentials
+conf/*.conf
+
+# testing directory
+testing/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
