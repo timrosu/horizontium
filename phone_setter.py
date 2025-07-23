@@ -1,6 +1,11 @@
 import requests
 from requests.utils import dict_from_cookiejar
 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+
 from collections import defaultdict
 
 from pyquery import PyQuery as pq
