@@ -2,7 +2,7 @@
 conf/*.conf
 
 # url list
--conf/urls.conf
+!conf/urls.conf
 
 # testing directory
 testing/

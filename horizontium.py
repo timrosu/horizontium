@@ -1,26 +1,34 @@
 from time import sleep
+
+# selenium browser driver
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+
+# selenium commands
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
+
 
 def wait_for_page_to_load() -> None:
     WebDriverWait(driver, 10).until(
         lambda d: d.execute_script("return document.readyState") == "complete"
     )
 
+
 def load_config(filename: str) -> dict:
     """Load config from text file to dictionary. Originaly meant for http headers."""
-    config = {}
+    configuration = {}
     with open(filename, "r") as f:
         for line in f:
             if not line.strip() or ":" not in line:
                 continue
             key, value = line.split(":", 1)
-            config[key.strip()] = value.strip()
-    return config
+            configuration[key.strip()] = value.strip()
+    return configuration
 
 
 ###### CONFIG ######
@@ -32,7 +40,8 @@ url = load_config("conf/urls.conf")
 # initialize web driver
 options = Options()
 options.add_argument("--headless")  # Remove this line if you want to see the browser
-driver = webdriver.Firefox(options=options)
+service = Service(GeckoDriverManager().install())
+driver = webdriver.Firefox(service=service, options=options)
 
 
 # open login page
@@ -85,16 +94,23 @@ number_dropdown = wait.until(
 ## read existent unconditional redirect boolean-like entity and enable it
 redirect_toggle = Select(driver.find_element(By.NAME, "CFU_menu"))
 
-print("old selected index:", redirect_toggle.options.index(redirect_toggle.first_selected_option))
+print(
+    "old selected index:",
+    redirect_toggle.options.index(redirect_toggle.first_selected_option),
+)
 if redirect_toggle != "A":
     redirect_toggle.select_by_index(0)
     sleep(0.5)
-    print("new selected index:", redirect_toggle.options.index(redirect_toggle.first_selected_option))
+    print(
+        "new selected index:",
+        redirect_toggle.options.index(redirect_toggle.first_selected_option),
+    )
 
 ## read existent unconditional redirect number
 redirect_number = driver.find_element(By.NAME, "CFU_c_number")
 old_value = redirect_number.get_attribute("value")
 print("old number:", old_value)
+
 if old_value != config.get("redirect_number"):
     print("red-num different than in conf, setting user preferred")
     redirect_number.clear()
@@ -104,5 +120,4 @@ if old_value != config.get("redirect_number"):
     driver.find_element(By.NAME, "shrani").click()
 
 print("✅")
-sleep(2)
 driver.close()
