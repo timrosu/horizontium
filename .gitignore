@@ -1,6 +1,9 @@
 # horizont sensitive configurations credentials
 conf/*.conf
 
+# url list
+-conf/urls.conf
+
 # testing directory
 testing/
 
