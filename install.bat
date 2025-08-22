@@ -1,11 +1,11 @@
-:: horizontium linux installer
+:: horizontium windows installer
 @echo off
 
 echo creating virtual environment
 python -m venv env
 
 echo entering environment
-env\Scripts\activate.bat
+call env\Scripts\activate.bat
 echo installing requirements in environment...
 pip install -r requirements.txt
 
@@ -13,7 +13,7 @@ echo "generating run script (run.bat)"
 (
 echo @echo off
 echo cd /d %%~dp0
-echo env\Scripts\activate.bat
+echo call env\Scripts\activate.bat
 echo python horizontium.py
 ) > run.bat
 

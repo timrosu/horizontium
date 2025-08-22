@@ -13,10 +13,10 @@ Create `horizont.conf` file in conf directory. Use template here:
 username: <t-2_horizont_username>
 password: <t-2_horizont_password>
 t2_number: <same_as_username_in_many_cases>
-redirect_number: <your_number_WITHOUT_1ST_DIGIT!>
+redirect_number: <your_number(supported forms: 38623456789 and 123456789)>
 ```
 
-There is currently no authentication validating logic. If it fails, you can try commenting out `options.add_argument("--headless")` in 42nd line of horizontium.py and looking where flow stops.
+There is currently no authentication validating logic. If it fails, you can try commenting out `options.add_argument("--headless")` in 42nd line of horizontium.py and look where flow stops.
 
 ## Installation
 
