@@ -32,7 +32,7 @@ def load_config(filename: str) -> dict:
 
 
 ###### CONFIG ######
-config = load_config("conf/horizont.conf")
+config = load_config("conf/horizontium.conf")
 url = load_config("conf/urls.conf")
 ####################
 
@@ -66,13 +66,27 @@ password_input.send_keys(config.get("password"))
 print("🤓👉 entered password")
 
 ## find and click the login button
+sleep(0.5)
 WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CSS_SELECTOR, "#submitButton > img"))
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "#submitButton"))
+).click()
+
+# locate otp input field
+otp_input = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, "#sms-token"))
+)
+otp_input.clear()
+
+otp_token=input("💬 Enter OTP code: ")
+otp_input.send_keys(otp_token)
+print("🤓👉 submitted OTP code")
+
+## find and click the login button
+WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "#submitButton"))
 ).click()
 print("🤓👉 logged in")
 
-
-# wait for redirection to login portal
 wait_for_page_to_load()
 
 ## accept cookies (cause why th not)
@@ -83,7 +97,7 @@ print("🤓👉 accepted cookies 🍪🍪🍪")
 
 ## open redirection tab
 WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "tab-3"))
+    EC.presence_of_element_located((By.CSS_SELECTOR, "#tab-t4"))
 ).click()
 print("🤓👉 selected redirection tab")
 
