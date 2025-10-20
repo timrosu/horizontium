@@ -4,8 +4,9 @@ conf/*.conf
 # url list
 !conf/urls.conf
 
-# generated run script
+# generated run scripts
 run.sh
+run.bat
 
 # testing directory
 testing/
