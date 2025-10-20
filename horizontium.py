@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.common.action_chains import ActionChains
 
 def wait_for_page_to_load() -> None:
     WebDriverWait(driver, 10).until(
@@ -119,7 +119,9 @@ if old_red_num != config.get("redirect_number"):
     print("🤓👉 typed in your number")
     print("️️📞 new number:", redirect_number.get_attribute("value"))
     ## save changes
-    driver.find_element(By.CSS_SELECTOR, ".shrani-gumb > span").click()
+    save_button = driver.find_element(By.CSS_SELECTOR, ".shrani-gumb")
+    driver.execute_script("arguments[0].scrollIntoView(true);", save_button) # scroll to the save button
+    save_button.click()
     print("🤓👉 saved changes")
 
 print("✅")
