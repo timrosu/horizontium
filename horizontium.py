@@ -120,6 +120,7 @@ if old_red_num != config.get("redirect_number"):
     print("️️📞 new number:", redirect_number.get_attribute("value"))
     ## save changes
     save_button = driver.find_element(By.CSS_SELECTOR, ".shrani-gumb")
+    sleep(2) # waits for some loading screen to dissapear
     driver.execute_script("arguments[0].scrollIntoView(true);", save_button) # scroll to the save button
     save_button.click()
     print("🤓👉 saved changes")
