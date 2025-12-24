@@ -14,7 +14,7 @@ echo "generating run script (run.bat)"
 echo @echo off
 echo cd /d %%~dp0
 echo call env\Scripts\activate.bat
-echo python horizontium.py
+echo python main.py
 ) > run.bat
 
 echo "All done! You can copy run script to your desired location or link it to a shortcut."

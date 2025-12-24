@@ -27,3 +27,13 @@ cd horizontium
 ```
 
 On Linux/Unix/MacOS run `install.sh`, on Windows run `install.bat`.
+
+## Roadmap
+
+- [X] distribute code into multiple files
+- [ ] add option for overriding data from config
+- [ ] add option for using natively installed webdriver
+- [ ] use selenium only for login process
+	- [ ] capture auth cookie
+	- [ ] do everything else natively with requests
+- [ ] separate code into client (horizontium) and library (libhorizont) repo

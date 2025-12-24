@@ -13,7 +13,7 @@ echo "generating run script (run.sh)"
 cat > run.sh << EOL
 cd $(pwd)
 source env/bin/activate
-python horizontium.py
+python main.py
 EOL
 
 echo "All done! You can copy run script to your desired location or link it to a shortcut."
