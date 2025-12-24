@@ -87,7 +87,7 @@ def main(config: dict,url: dict):
     print("🤓👉 selected redirection tab")
 
     ## wait for number input field
-    redirect_number = WebDriverWait(driver, 10).until(
+    redirect_number_input = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
             (
                 By.CSS_SELECTOR,
@@ -98,16 +98,31 @@ def main(config: dict,url: dict):
     print("🤓👉 found number input field")
 
     ## read currently set unconditional redirect number
-    old_red_num = redirect_number.get_attribute("value")
+    old_red_num = redirect_number_input.get_attribute("value")
     print("️️📞 old number:", old_red_num)
 
-    if old_red_num != config.get("redirect_number"):
+    override_redirect_num = None # temporary, will move to main.py
+
+    if override_redirect_num is not None:
+        set_number(driver,old_red_num,redirect_number_input,override_redirect_num)
+    else:
+        set_number(driver,old_red_num,redirect_number_input,config.get("redirect_number"))
+
+    print("✅")
+
+    # logout
+    driver.find_element(By.ID, "t2logoutbtn").click()
+    print("🤓👉 logged out")  # TODO: make verbosity optional with debug option in config
+    driver.close()
+
+def set_number(driver,old_red_num:str,redirect_number_input,redirect_number:str):
+    if old_red_num != redirect_number:
         print("️️📞 number different than in conf, setting user preferred")
-        redirect_number.clear()
+        redirect_number_input.clear()
         print("🤓👉 cleared old number")
-        redirect_number.send_keys(config.get("redirect_number"))
+        redirect_number_input.send_keys(redirect_number)
         print("🤓👉 typed in your number")
-        print("️️📞 new number:", redirect_number.get_attribute("value"))
+        print("️️📞 new number:", redirect_number_input.get_attribute("value"))
         ## save changes
         save_button = driver.find_element(By.CSS_SELECTOR, ".shrani-gumb")
         sleep(2)  # waits for some loading screen to dissapear
@@ -116,13 +131,6 @@ def main(config: dict,url: dict):
         )  # scroll to the save button
         save_button.click()
         print("🤓👉 saved changes")
-
-    print("✅")
-
-    # logout
-    driver.find_element(By.ID, "t2logoutbtn").click()
-    print("🤓👉 logged out")  # TODO: make verbosity optional with debug option in config
-    driver.close()
 
 if __name__ == "__main__":
     # This prevents this script from running when imported by main.py
