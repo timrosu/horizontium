@@ -11,6 +11,9 @@ run.bat
 # testing directory
 testing/
 
+# direnv dir for nix store
+.direnv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -149,7 +152,7 @@ celerybeat.pid
 
 # Environments
 .env
-.envrc
+#.envrc
 .venv
 env/
 venv/

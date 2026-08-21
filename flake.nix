@@ -10,28 +10,28 @@
     };
 
     uv2nix = {
-      url = "github:pyproject-nix/uv2nix"
+      url = "github:pyproject-nix/uv2nix";
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     pyproject-build-systems = {
-      url = "github:pyproject-nix/build-system-pkgs"
+      url = "github:pyproject-nix/build-system-pkgs";
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.uv2nix.follows = "uv2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  }
+  };
 
   outputs =
-    { self, nixpkgs, pyproject-nix, uv2nix, pyproject-build-systems, ... }:
+  { self, nixpkgs, pyproject-nix, uv2nix, pyproject-build-systems, ... }:
     let
       inherit (nixpkgs) lib;
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
 
       workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
 
-      overjay = workspace.mkPyprojectOverlay {
+      overlay = workspace.mkPyprojectOverlay {
         sourcePreference = "wheel";
       };
 
@@ -66,21 +66,21 @@
             packages = [ 
               virtualenv
               pkgs.uv
+              pkgs.librewolf
             ];
             env = {
               UV_PYTHON = pkgs.python3.interpreter;
             };
             shellHook = ''
               unset PYTHONPATH
-              export REPO_ROOT=$(readlink -d .)
+              export REPO_ROOT=$(readlink -f .)
               . ${virtualenv}/bin/activate
-            ''
+            '';
           };
         });
 
-      packages = forAllSystems (system:  {
-          default = pythonSet.mkVirtualEnv "horizont-env" workspace.deps.default; 
-        }
-      );
+      packages = forAllSystems (system: {
+        default = pythonSets.mkVirtualEnv "horizont-env" workspace.deps.default; 
+      });
     };
 }
